@@ -35,7 +35,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
   useEffect(() => {
     Notification.requestPermission();
-  }, [])
+  }, []);
 
   function levelUp() {
     setLevel(level + 1);
@@ -46,6 +46,14 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
     const challenge = challenges[randomChallengeIndex];
 
     setActiveChallenge(challenge);
+
+    new Audio("/notification.mp3").play();
+
+    if (Notification.permission === "granted") {
+      new Notification("New challenge!", {
+        body: `Worths ${challenge.amount}xp`,
+      });
+    }
   }
 
   function resetChallenge() {
@@ -68,7 +76,7 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
 
     setCurrentExperience(finalExperience);
     setActiveChallenge(null);
-    setChallengesCompleted(challengesCompleted +1);
+    setChallengesCompleted(challengesCompleted + 1);
   }
 
   return (
